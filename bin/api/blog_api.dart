@@ -10,16 +10,15 @@ import '../services/generic_service.dart';
 import 'api.dart';
 
 class BlogApi extends Api {
-  final bool isSecurity;
   final GenericService<NoticiaModel> _service;
 
-  BlogApi(
-    this._service, {
-    this.isSecurity = false,
-  });
+  BlogApi(this._service);
 
   @override
-  Handler getHandler({List<Middleware>? middlewares}) {
+  Handler getHandler({
+    List<Middleware>? middlewares,
+    bool isSecurity = false,
+  }) {
     Router router = Router();
 
     // listagem...
@@ -50,6 +49,7 @@ class BlogApi extends Api {
       return Response.ok("Choveu hoje");
     });
 
-    return createHandler(router: router, isSecurity: isSecurity , middlewares: middlewares);
+    return createHandler(
+        router: router, isSecurity: isSecurity, middlewares: middlewares);
   }
 }

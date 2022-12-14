@@ -5,32 +5,16 @@ import 'package:shelf/shelf.dart';
 import 'api/blog_api.dart';
 import 'api/login_api.dart';
 import 'infra/custom_server.dart';
-import 'infra/dependency_injector/dependency_injector.dart';
+import 'infra/dependency_injector/injects.dart';
 import 'infra/middleware_interception.dart';
-import 'infra/security/security_service.dart';
-import 'infra/security/security_service_imp.dart';
-import 'services/noticia_service.dart';
 import 'utils/custom_env.dart';
 
 void main() async {
-  final _di = DependencyInjector();
+  final _di = Injects.initialize();
 
-  _di.register<SecurityService>(() => SecurityServiceImp());
-
-  var _securityService = _di.get<SecurityServiceImp>();
-
-  var cascadeHandler = Cascade()
-      .add(LoginApi(_securityService).getHandler(middlewares: [
-        createMiddleware(requestHandler: (Request req) {
-          print('LOG -> ${req.url}');
-        })
-      ]))
-      .add(
-        BlogApi(NoticiaService()).getHandler(middlewares: [
-          _securityService.auhtorization,
-          _securityService.verifyJwt,
-        ]),
-      )
+  var cascadeHandler = Cascade() 
+      .add(_di.get<LoginApi>().getHandler())
+      .add(_di.get<BlogApi>().getHandler(isSecurity: true))
       .handler;
 
   var handler = Pipeline()

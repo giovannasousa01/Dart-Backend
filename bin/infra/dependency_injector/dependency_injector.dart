@@ -1,14 +1,13 @@
 // ignore_for_file: prefer_collection_literals
 
-typedef T InstanceCreator<T>();
+typedef InstanceCreator<T> = T Function();
 
 class DependencyInjector {
   DependencyInjector._();
   static final _singleton = DependencyInjector._();
-
   factory DependencyInjector() => _singleton;
 
-  final _instanceMap = Map<Type, _InstanceGenerator<Object>>();
+  final _instanceMap = Map<Type, _InstanceGenerator<Object> >();
 
   // register...
   void register<T extends Object>(
@@ -21,9 +20,7 @@ class DependencyInjector {
 
   T get<T extends Object>() {
     final instance = _instanceMap[T]?.getInstance();
-    if (instance != null && instance is T) {
-      return instance;
-    }
+    if (instance != null && instance is T) return instance;
     throw Exception('[ERROR] -> Instance ${T.toString()} not found');
   }
 
