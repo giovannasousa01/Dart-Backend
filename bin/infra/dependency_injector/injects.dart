@@ -3,6 +3,8 @@ import '../../api/blog_api.dart';
 import '../../api/login_api.dart';
 import '../../services/generic_service.dart';
 import '../../services/noticia_service.dart';
+import '../database/db_configuration.dart';
+import '../database/mysql_db_configuration.dart';
 import '../security/security_service.dart';
 import '../security/security_service_imp.dart';
 import 'dependency_injector.dart';
@@ -10,6 +12,8 @@ import 'dependency_injector.dart';
 class Injects {
   static DependencyInjector initialize() {
     var di = DependencyInjector();
+
+    di.register<DBConfigurarion>(() => MySqlDBConfiguration());
 
     di.register<SecurityService>(() => SecurityServiceImp());
 
