@@ -1,13 +1,13 @@
 // ignore_for_file: prefer_collection_literals
 
-typedef InstanceCreator<T> = T Function();
+typedef T InstanceCreator<T>();
 
 class DependencyInjector {
   DependencyInjector._();
   static final _singleton = DependencyInjector._();
   factory DependencyInjector() => _singleton;
 
-  final _instanceMap = Map<Type, _InstanceGenerator<Object> >();
+  final _instanceMap = Map<Type, _InstanceGenerator<Object>>();
 
   // register...
   void register<T extends Object>(
@@ -42,6 +42,6 @@ class _InstanceGenerator<T> {
       _isFirstGet = false;
     }
 
-    return _instance ?? _instanceCreator();
+    return _instance != null ? _instance : _instanceCreator();
   }
 }
