@@ -1,6 +1,6 @@
 // ignore_for_file: prefer_collection_literals
 
-typedef T InstanceCreator<T>();
+typedef InstanceCreator<T> = T Function();
 
 class DependencyInjector {
   DependencyInjector._();
@@ -42,6 +42,6 @@ class _InstanceGenerator<T> {
       _isFirstGet = false;
     }
 
-    return _instance != null ? _instance : _instanceCreator();
+    return _instance ?? _instanceCreator();
   }
 }
