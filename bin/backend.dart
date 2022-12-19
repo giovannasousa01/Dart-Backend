@@ -5,6 +5,7 @@ import 'package:shelf/shelf.dart';
 import '../models/usuario_model.dart';
 import 'api/blog_api.dart';
 import 'api/login_api.dart';
+import 'dao/usuario_dao.dart';
 import 'infra/custom_server.dart';
 import 'infra/database/db_configuration.dart';
 import 'infra/dependency_injector/injects.dart';
@@ -14,13 +15,19 @@ import 'utils/custom_env.dart';
 void main() async {
   final _di = Injects.initialize();
 
-  var conexao = await _di.get<DBConfigurarion>().connection;
-  var result = await conexao.query('SELECT * FROM usuarios;');
+  UsuarioDAO _usuarioDAO = UsuarioDAO(_di<DBConfigurarion>());
 
-  for (var r in result) {
-    UsuarioModel usuario = UsuarioModel.fromMap(r.fields);
-    print(usuario);
-  }
+  var usuario = UsuarioModel()
+    ..id = 13
+    ..name = 'Tyler J'
+    ..email = 'tyler@email.com'
+    ..password = 'abc45';
+
+  // _usuarioDAO.create(usuario).then(print);
+  // _usuarioDAO.findAll().then(print);
+  // _usuarioDAO.findOne(13).then(print);
+  // _usuarioDAO.update(usuario).then(print);
+  // _usuarioDAO.delete(12).then(print);
 
   var cascadeHandler = Cascade()
       .add(_di.get<LoginApi>().getHandler())
