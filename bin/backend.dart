@@ -2,6 +2,7 @@
 
 import 'package:shelf/shelf.dart';
 
+import '../models/usuario_model.dart';
 import 'api/blog_api.dart';
 import 'api/login_api.dart';
 import 'infra/custom_server.dart';
@@ -15,7 +16,11 @@ void main() async {
 
   var conexao = await _di.get<DBConfigurarion>().connection;
   var result = await conexao.query('SELECT * FROM usuarios;');
-  print(result);
+
+  for (var r in result) {
+    UsuarioModel usuario = UsuarioModel.fromMap(r.fields);
+    print(usuario);
+  }
 
   var cascadeHandler = Cascade()
       .add(_di.get<LoginApi>().getHandler())
