@@ -3,6 +3,7 @@ abstract class DBConfigurarion {
 
   Future<dynamic> get connection;
 
+  execQuery(String sql, [List? params]);
   
 
 

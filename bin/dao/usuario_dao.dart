@@ -10,7 +10,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<bool> create(UsuarioModel value) async {
-    var result = await _execQuery(
+    var result = await _dbConfigurarion.execQuery(
       'INSERT INTO usuarios(nome, email, password) VALUES (?, ?, ?)',
       [value.name, value.email, value.password],
     );
@@ -19,7 +19,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<bool> delete(int id) async {
-    var result = await _execQuery(
+    var result = await _dbConfigurarion.execQuery(
       'DELETE FROM usuarios WHERE id = ?',
       [id],
     );
@@ -28,7 +28,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<List<UsuarioModel>> findAll() async {
-    var result = await _execQuery('SELECT * FROM usuarios');
+    var result = await _dbConfigurarion.execQuery('SELECT * FROM usuarios');
 
     return result
         .map((r) => UsuarioModel.fromMap(r.fields))
@@ -38,7 +38,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<UsuarioModel?> findOne(int id) async {
-    var result = await _execQuery(
+    var result = await _dbConfigurarion.execQuery(
       'SELECT * FROM usuarios WHERE id = ?',
       [id],
     );
@@ -50,7 +50,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<bool> update(UsuarioModel value) async {
-    var result = await _execQuery(
+    var result = await _dbConfigurarion.execQuery(
       'UPDATE usuarios SET nome = ?, password = ? WHERE id = ?',
       [value.name, value.password, value.id],
     );
@@ -59,14 +59,11 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   Future<UsuarioModel?> findByEmail(String email) async {
     var result =
-        await _execQuery('SELECT * FROM usuarios WHERE email = ?', [email]);
+        await _dbConfigurarion.execQuery('SELECT * FROM usuarios WHERE email = ?', [email]);
     return result.affectedRows == 0
         ? null
         : UsuarioModel.fromEmail(result.first.fields);
   }
 
-  _execQuery(String sql, [List? params]) async {
-    var connection = await _dbConfigurarion.connection;
-    return await connection.query(sql, params);
-  }
+
 }

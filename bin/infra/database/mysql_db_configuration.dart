@@ -28,4 +28,10 @@ class MySqlDBConfiguration implements DBConfigurarion {
       ),
     );
   }
+
+  @override
+  execQuery(String sql, [List? params]) async {
+    var conn = await connection;
+    return await conn.query(sql, params);
+  }
 }

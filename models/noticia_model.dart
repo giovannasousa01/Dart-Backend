@@ -1,44 +1,50 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class NoticiaModel {
-  final int? id;
-  final String titulo;
-  final String description;
-  final String imagem;
-  final DateTime dtPublicacao;
-  final DateTime? dtAtualizacao;
+  int? id;
+  String? title;
+  String? description;
+  DateTime? dtCreated;
+  DateTime? dtUpdated;
+  int? userId;
 
-  NoticiaModel(
-    this.id,
-    this.titulo,
-    this.description,
-    this.imagem,
-    this.dtPublicacao,
-    this.dtAtualizacao,
-  );
+  NoticiaModel();
 
-  factory NoticiaModel.fromJson(Map map) {
-    return NoticiaModel(
-      map['id'] ?? '',
-      map['titulo'],
-      map['description'],
-      map['imagem'],
-      DateTime.fromMillisecondsSinceEpoch(map['dtPublicacao']),
-      map['dtAtualizacao'] != null
-          ? DateTime.fromMillisecondsSinceEpoch(map['dtAtualizacao'])
-          : null,
-    );
+  factory NoticiaModel.fromMap(Map map) {
+    return NoticiaModel()
+      ..id = map['id']?.toInt()
+      ..title = map['titulo']
+      ..description = map['descricao'].toString()
+      ..dtCreated = map['dt_criacao']
+      ..dtUpdated = map['dt_atualizacao']
+      ..userId = map['id_usuario']?.toInt();
   }
 
   Map toJson() {
     return {
       'id': id,
-      'titulo': titulo,
-      'descricao': description,
-      'imagem': imagem
+      'title': title,
+      'description': description,
     };
+  }
+
+  factory NoticiaModel.fromRequest(Map map) {
+    return NoticiaModel()
+      ..id = map['id']?.toInt()
+      ..title = map['title']
+      ..description = map['description']
+      ..userId = map['userId']?.toInt();
   }
 
   @override
   String toString() {
-    return 'NoticiaModel(id: $id, titulo: $titulo, description: $description, imagem: $imagem, dtPublicacao: $dtPublicacao, dtAtualizacao: $dtAtualizacao)';
+    return '''
+      NoticiaModel(
+        id: $id, 
+        title: $title, 
+        description: $description, 
+        dtCreated: $dtCreated, 
+        dtUpdated: $dtUpdated, 
+        userId: $userId,
+      )''';
   }
 }

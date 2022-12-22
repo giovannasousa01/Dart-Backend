@@ -1,7 +1,7 @@
 // ignore_for_file: no_leading_underscores_for_local_identifiers, body_might_complete_normally_nullable
 
 import 'package:shelf/shelf.dart';
-import 'api/blog_api.dart';
+import 'api/noticias_api.dart';
 import 'api/login_api.dart';
 import 'api/usuario_api.dart';
 import 'infra/custom_server.dart';
@@ -14,7 +14,7 @@ void main() async {
 
   var cascadeHandler = Cascade()
       .add(_di.get<LoginApi>().getHandler())
-      .add(_di.get<BlogApi>().getHandler(isSecurity: true))
+      .add(_di.get<NoticiasApi>().getHandler(isSecurity: true))
       .add(_di.get<UsuarioApi>().getHandler(isSecurity: true))
       .handler;
 
