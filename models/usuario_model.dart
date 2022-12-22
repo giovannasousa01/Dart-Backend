@@ -36,6 +36,12 @@ class UsuarioModel {
       ..password = map['password'];
   }
 
+  factory UsuarioModel.fromEmail(Map map) {
+    return UsuarioModel()
+      ..id = map['id']?.toInt()
+      ..password = map['password'];
+  }
+
   @override
   String toString() {
     return '''UsuarioModel(
